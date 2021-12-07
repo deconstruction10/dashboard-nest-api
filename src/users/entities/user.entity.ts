@@ -1,37 +1,43 @@
 import {Column, Entity, PrimaryGeneratedColumn} from "typeorm";
 import {ApiProperty} from "@nestjs/swagger";
 import {AppRoles} from "../../roles/roles/app.roles";
-import {UseRoles} from "nest-access-control";
 
 @Entity('user')
 export class User {
-    @ApiProperty()
-    @PrimaryGeneratedColumn({name: 'id', type: 'int'})
-    id: number;
+    @ApiProperty({name: 'id', type: 'uuid'})
+    @PrimaryGeneratedColumn('uuid', {name: 'id'})
+    id: string;
 
-    @ApiProperty()
-    @Column({name: 'username', type: 'varchar', length: 1000})
+    @ApiProperty({name: 'username', type: 'varchar', maxLength: 50, nullable: true})
+    @Column({name: 'username', type: 'varchar', length: 50, nullable: true})
     username: string;
 
-    @ApiProperty()
-    @Column({name: 'email', type: 'varchar',length: 1000})
+    @ApiProperty({name: 'email', type: 'varchar',maxLength: 50, nullable: true})
+    @Column({name: 'email', type: 'varchar',length: 50, nullable: true})
     email: string;
 
-    @ApiProperty()
-    @Column({name: 'password', type: 'varchar', length: 1000})
+    @ApiProperty({name: 'password', type: 'varchar', maxLength: 100, nullable: true})
+    @Column({name: 'password', type: 'varchar', length: 100, nullable: true})
     password: string;
 
-    @ApiProperty()
-    @Column({name: 'firstname', type: 'varchar', length: 1000})
+    @ApiProperty({name: 'firstname', type: 'varchar', nullable: true, maxLength: 50})
+    @Column({name: 'firstname', type: 'varchar', length: 50, nullable: true})
     firstname: string;
 
-    @ApiProperty()
-    @Column({name: 'lastname', type: 'varchar', length: 1000})
+    @ApiProperty({name: 'lastname', type: 'varchar', maxLength: 50, nullable: true})
+    @Column({name: 'lastname', type: 'varchar', length: 50, nullable: true})
     lastname: string;
 
-    @ApiProperty()
-    @Column({name: 'mobile', type: 'bigint'})
-    mobile: number;
+    @Column({name: 'emailVerified', type: "boolean", nullable: true})
+    emailVerified: boolean;
+
+    @ApiProperty({name: 'mobile', type: 'varchar', nullable: true})
+    @Column({name: 'mobile', type: 'varchar', nullable: true})
+    mobile: string;
+
+    @ApiProperty({name: 'token', type: 'varchar', uniqueItems: true})
+    @Column({name: 'token', type: 'varchar', nullable: true, unique: true})
+    token: string;
 
     @Column({name: 'userRole', type: 'enum', enum: AppRoles, enumName: 'userRole', default: AppRoles.User})
     userRole: AppRoles;
